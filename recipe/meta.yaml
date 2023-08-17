@@ -10,20 +10,22 @@ source:
   sha256: 24fa8db51fbd9284da8e191794097c4bb2aa3fce411090e57af6385e61b97e09
 
 build:
-  noarch: python
   number: 0
-  script: {{ PYTHON }} -m pip install . -vv
+  skip: true  # [py<37]
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   host:
     - pip
-    - python =2.7|>=3.6
+    - python
+    - setuptools
+    - wheel
   run:
-    - dill >=0.3.5.1
-    - multiprocess >=0.70.13
-    - pox >=0.3.1
-    - ppft >=1.7.6.5
-    - python =2.7|>=3.6
+    - python
+    - dill >=0.3.7
+    - multiprocess >=0.70.15
+    - pox >=0.3.3
+    - ppft >=1.7.6.7
 
 test:
   imports:
@@ -39,9 +41,17 @@ test:
 about:
   home: https://github.com/uqfoundation/pathos
   license: BSD-3-Clause
+  license_family: BSD
   license_file: LICENSE
   summary: parallel graph management and execution in heterogeneous computing
+  description: |
+    Pathos is a framework for heterogenous computing. It primarily provides the 
+    communication mechanisms for configuring and launching parallel computations
+    across heterogenous resources. Pathos provides stagers and launchers for 
+    parallel and distributed computing, where each launcher contains the syntactic 
+    logic to configure and launch jobs in an execution environment. 
   dev_url: https://github.com/uqfoundation/pathos
+  doc_url: https://mmckerns.github.io/project/pathos/wiki.html
 
 extra:
   recipe-maintainers:
