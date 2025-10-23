@@ -25,21 +25,46 @@ requirements:
     - pox
   run:
     - python
-    - dill >=0.4.0
-    - multiprocess >=0.70.18
-    - pox >=0.3.6
     - ppft >=1.7.7
+    - dill >=0.4.0
+    - pox >=0.3.6
+    - multiprocess >=0.70.18
+  run_constrained:
+    - pyina >=0.3.0
+    - mystic >=0.4.3
 
 test:
   imports:
     - pathos
+    - pathos.abstract_launcher
+    - pathos.connection
+    - pathos.core
     - pathos.helpers
+    - pathos.helpers.mp_helper
+    - pathos.helpers.pp_helper
+    - pathos.hosts
+    - pathos.maps
+    - pathos.multiprocessing
+    - pathos.parallel
+    - pathos.pools
+    - pathos.portpicker
+    - pathos.pp
+    - pathos.profile
     - pathos.secure
+    - pathos.selector
+    - pathos.serial
+    - pathos.server
+    - pathos.threading
+    - pathos.util
     - pathos.xmlrpc
+    - pathos.tests
   requires:
     - pip
+    - pytest
   commands:
     - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    - python -m pathos.tests
 
 about:
   home: https://github.com/uqfoundation/pathos
