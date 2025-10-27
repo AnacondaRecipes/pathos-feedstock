@@ -64,7 +64,9 @@ test:
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-    - python -m pathos.tests
+      # WIN LOG: An attempt has been made to start a new process before thecurrent process has finished
+      # its bootstrapping phase. This probably means that you are not using fork to start your child processes (...)
+    - python -m pathos.tests  # [not win]
 
 about:
   home: https://github.com/uqfoundation/pathos
