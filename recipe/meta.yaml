@@ -1,13 +1,13 @@
 {% set name = "pathos" %}
-{% set version = "0.3.0" %}
+{% set version = "0.3.4" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 24fa8db51fbd9284da8e191794097c4bb2aa3fce411090e57af6385e61b97e09
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: bad4912d0ef865654a7cc478da65f2e1d5b69f3d92c4a7d9c9845657783c0754
 
 build:
   number: 0
@@ -18,25 +18,55 @@ requirements:
   host:
     - pip
     - python
-    - setuptools
-    - wheel
+    - setuptools >=42
+    - dill
+    - multiprocess
+    - ppft
+    - pox
   run:
     - python
-    - dill >=0.3.7
-    - multiprocess >=0.70.15
-    - pox >=0.3.3
-    - ppft >=1.7.6.7
+    - ppft >=1.7.7
+    - dill >=0.4.0
+    - pox >=0.3.6
+    - multiprocess >=0.70.18
+  run_constrained:
+    - pyina >=0.3.0
+    - mystic >=0.4.3
 
 test:
   imports:
     - pathos
+    - pathos.abstract_launcher
+    - pathos.connection
+    - pathos.core
     - pathos.helpers
+    - pathos.helpers.mp_helper
+    - pathos.helpers.pp_helper
+    - pathos.hosts
+    - pathos.maps
+    - pathos.multiprocessing
+    - pathos.parallel
+    - pathos.pools
+    - pathos.portpicker
+    - pathos.pp
+    - pathos.profile
     - pathos.secure
+    - pathos.selector
+    - pathos.serial
+    - pathos.server
+    - pathos.threading
+    - pathos.util
     - pathos.xmlrpc
+    - pathos.tests
   requires:
     - pip
+    - pytest
   commands:
     - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+      # WIN LOG: An attempt has been made to start a new process before thecurrent process has finished
+      # its bootstrapping phase. This probably means that you are not using fork to start your child processes (...)
+    - python -m pathos.tests  # [not win]
 
 about:
   home: https://github.com/uqfoundation/pathos
@@ -45,11 +75,11 @@ about:
   license_file: LICENSE
   summary: parallel graph management and execution in heterogeneous computing
   description: |
-    Pathos is a framework for heterogenous computing. It primarily provides the 
+    Pathos is a framework for heterogenous computing. It primarily provides the
     communication mechanisms for configuring and launching parallel computations
-    across heterogenous resources. Pathos provides stagers and launchers for 
-    parallel and distributed computing, where each launcher contains the syntactic 
-    logic to configure and launch jobs in an execution environment. 
+    across heterogenous resources. Pathos provides stagers and launchers for
+    parallel and distributed computing, where each launcher contains the syntactic
+    logic to configure and launch jobs in an execution environment.
   dev_url: https://github.com/uqfoundation/pathos
   doc_url: https://mmckerns.github.io/project/pathos/wiki.html
 
