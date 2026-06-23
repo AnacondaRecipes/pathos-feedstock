@@ -1,5 +1,5 @@
 {% set name = "pathos" %}
-{% set version = "0.3.4" %}
+{% set version = "0.3.5" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: bad4912d0ef865654a7cc478da65f2e1d5b69f3d92c4a7d9c9845657783c0754
+  sha256: 8fe041b8545c5d3880a038f866022bdebf935e5cf68f56ed3407cb7e65193a61
 
 build:
   number: 0
@@ -63,9 +63,9 @@ test:
     - pytest
   commands:
     - pip check
-    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-      # WIN LOG: An attempt has been made to start a new process before thecurrent process has finished
-      # its bootstrapping phase. This probably means that you are not using fork to start your child processes (...)
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')":
+        # WIN LOG: An attempt has been made to start a new process before thecurrent process has finished
+        # its bootstrapping phase. This probably means that you are not using fork to start your child processes (...)
     - python -m pathos.tests  # [not win]
 
 about:
