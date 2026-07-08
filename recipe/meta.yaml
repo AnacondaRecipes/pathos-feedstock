@@ -1,17 +1,17 @@
 {% set name = "pathos" %}
-{% set version = "0.3.4" %}
+{% set version = "0.3.5" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: bad4912d0ef865654a7cc478da65f2e1d5b69f3d92c4a7d9c9845657783c0754
+  sha256: 8fe041b8545c5d3880a038f866022bdebf935e5cf68f56ed3407cb7e65193a61
 
 build:
   number: 0
-  skip: true  # [py<37]
+  skip: true  # [py<39]
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
@@ -19,19 +19,15 @@ requirements:
     - pip
     - python
     - setuptools >=42
-    - dill
-    - multiprocess
-    - ppft
-    - pox
   run:
     - python
-    - ppft >=1.7.7
-    - dill >=0.4.0
-    - pox >=0.3.6
-    - multiprocess >=0.70.18
+    - ppft >=1.7.8
+    - dill >=0.4.1
+    - pox >=0.3.7
+    - multiprocess >=0.70.19
   run_constrained:
-    - pyina >=0.3.0
-    - mystic >=0.4.3
+    - pyina >=0.3.1
+    - mystic >=0.4.4
 
 test:
   imports:
@@ -64,8 +60,8 @@ test:
   commands:
     - pip check
     - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
-      # WIN LOG: An attempt has been made to start a new process before thecurrent process has finished
-      # its bootstrapping phase. This probably means that you are not using fork to start your child processes (...)
+        # WIN LOG: An attempt has been made to start a new process before thecurrent process has finished
+        # its bootstrapping phase. This probably means that you are not using fork to start your child processes (...)
     - python -m pathos.tests  # [not win]
 
 about:
